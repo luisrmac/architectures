@@ -1,21 +1,21 @@
 package com.example.architectures.model;
 
-public class Result {
+public class Result<T> {
 
-    private int result = 0;
+    private T result;
 
     public Result() {
     }
 
-    public Result(int result) {
+    public Result(T result) {
         this.result = result;
     }
 
-    public int getResult() {
+    public T getResult() {
         return result;
     }
 
-    public void setResult(int result) {
+    public void setResult(T result) {
         this.result = result;
     }
 

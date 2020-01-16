@@ -8,13 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.architectures.model.Operation;
+import com.example.architectures.model.Result;
 import com.example.architectures.pd.Calculator;
 import com.example.architectures.pd.IntegerCalculator;
 
 public class MainActivity extends AppCompatActivity
         implements View.OnClickListener {
 
-    private Calculator calculator;
+    private Calculator<Integer> calculator;
 
     private EditText arg1ET;
     private EditText arg2ET;
@@ -53,34 +55,48 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addBT:
-                performAdd();
+                processOperation(Operation.ADD);
                 break;
             case R.id.subtractBT:
-                performSubtract();
+                processOperation(Operation.SUBTRACT);
                 break;
             case R.id.multiplyBT:
-                performMultiply();
+                processOperation(Operation.MULTIPLY);
                 break;
             case R.id.divideBT:
-                performDivide();
+                processOperation(Operation.DIVIDE);
                 break;
         }
     }
 
-    private void performDivide() {
-        // TODO - Provide implementation performDivide
-    }
+    private void processOperation(Operation operation) {
+        int arg1 = Integer.parseInt(arg1ET.getText().toString());
+        int arg2 = Integer.parseInt(arg2ET.getText().toString());
 
-    private void performMultiply() {
-        // TODO - Provide implementation performMultiply
-    }
+        Result result = null;
 
-    private void performSubtract() {
-        // TODO - Provide implementation performSubtract
-    }
+        switch (operation) {
+            case ADD:
+                result = calculator.add(arg1, arg2);
+                break;
+            case SUBTRACT:
+                result = calculator.subtract(arg1, arg2);
+                break;
+            case MULTIPLY:
+                result = calculator.multiply(arg1, arg2);
+                break;
+            case DIVIDE:
+                try {
+                    result = calculator.divide(arg1, arg2);
+                } catch (IllegalArgumentException ie) {
+                    resultTV.setText(ie.getMessage());
+                }
+                break;
+        }
 
-    private void performAdd() {
-        // TODO - Provide implementation performAdd
+        if (result != null) {
+            resultTV.setText(result.resultToString(operation));
+        }
     }
 
 }
